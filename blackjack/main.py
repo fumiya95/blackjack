@@ -1,8 +1,8 @@
+
 import random
 
-# カードの値を管理する辞書
 CARD_VALUES = {
-    'A': 1,  # Aは1として計算し、後から必要に応じて+10する
+    'A': 1,
     '2': 2, '3': 3, '4': 4, '5': 5,
     '6': 6, '7': 7, '8': 8, '9': 9,
     '10': 10, 'J': 10, 'Q': 10, 'K': 10
@@ -16,27 +16,19 @@ def create_deck():
     return deck
 
 def calculate_score(cards):
-    """
-    手札のスコアを計算して返す。
-    A は 1 または 11 として、21 を超えない範囲で高い方を選ぶ。
-    """
     total = 0
     ace_count = 0
-
     for card in cards:
-        rank = card[:-1]  # 末尾のマークを除いた部分がランク
+        rank = card[:-1]
         if rank == 'A':
             ace_count += 1
-            total += 1  # ひとまず1点として足す
+            total += 1
         else:
             total += CARD_VALUES[rank]
-
-    # A を 11 として扱えるかをチェック
     while ace_count > 0:
         if total + 10 <= 21:
             total += 10
         ace_count -= 1
-
     return total
 
 def main():
@@ -44,14 +36,24 @@ def main():
     player_cards = [deck.pop(), deck.pop()]
     dealer_cards = [deck.pop(), deck.pop()]
 
-    print("プレイヤーのカード:", player_cards)
+    # プレイヤーターン
+    while True:
+        print(f"あなたのカード: {player_cards} (合計: {calculate_score(player_cards)})")
+        action = input("Hit する場合は H、Stand する場合は S を入力してください: ").strip().upper()
+
+        if action == 'H':
+            player_cards.append(deck.pop())
+            if calculate_score(player_cards) > 21:
+                print("あなたはバーストしました！")
+                break
+        elif action == 'S':
+            print("あなたはスタンドしました。")
+            break
+        else:
+            print("入力が不正です。H か S を入力してください。")
+
+    # 後ほどディーラーターンを追加する
     print("ディーラーのカード:", dealer_cards)
-
-    player_score = calculate_score(player_cards)
-    dealer_score = calculate_score(dealer_cards)
-
-    print("プレイヤーのスコア:", player_score)
-    print("ディーラーのスコア:", dealer_score)
 
 if __name__ == "__main__":
     main()
