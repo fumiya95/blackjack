@@ -1,4 +1,3 @@
-
 import random
 
 CARD_VALUES = {
@@ -52,8 +51,13 @@ def main():
         else:
             print("入力が不正です。H か S を入力してください。")
 
-    # 後ほどディーラーターンを追加する
-    print("ディーラーのカード:", dealer_cards)
+    # ディーラーターン
+    print(f"ディーラーのカード: {dealer_cards}")
+    while calculate_score(dealer_cards) < 17:
+        dealer_cards.append(deck.pop())
+
+    dealer_score = calculate_score(dealer_cards)
+    print(f"ディーラーのカード最終: {dealer_cards} (合計: {dealer_score})")
 
 if __name__ == "__main__":
     main()
