@@ -52,12 +52,29 @@ def main():
             print("入力が不正です。H か S を入力してください。")
 
     # ディーラーターン
-    print(f"ディーラーのカード: {dealer_cards}")
-    while calculate_score(dealer_cards) < 17:
-        dealer_cards.append(deck.pop())
+    player_score = calculate_score(player_cards)
+    print(f"ディーラーのカード: {dealer_cards} (合計: {calculate_score(dealer_cards)})")
+
+    if player_score <= 21:
+        while calculate_score(dealer_cards) < 17:
+            dealer_cards.append(deck.pop())
 
     dealer_score = calculate_score(dealer_cards)
     print(f"ディーラーのカード最終: {dealer_cards} (合計: {dealer_score})")
+
+    # 勝敗判定
+    if player_score > 21:
+        print("あなたの負けです…")
+    else:
+        if dealer_score > 21:
+            print("ディーラーがバースト！ あなたの勝ちです！")
+        else:
+            if player_score > dealer_score:
+                print("あなたの勝ちです！")
+            elif player_score < dealer_score:
+                print("あなたの負けです…")
+            else:
+                print("引き分けです。")
 
 if __name__ == "__main__":
     main()
