@@ -1,4 +1,9 @@
 import random
+import random
+from colorama import init, Fore, Style
+
+init(autoreset=True)
+
 
 CARD_VALUES = {
     'A': 1,
@@ -37,13 +42,13 @@ def main():
 
     # プレイヤーターン
     while True:
-        print(f"あなたのカード: {player_cards} (合計: {calculate_score(player_cards)})")
+        print(Fore. BLUE + f"あなたのカード: {player_cards} (合計: {calculate_score(player_cards)})")
         action = input("Hit する場合は H、Stand する場合は S を入力してください: ").strip().upper()
 
         if action == 'H':
             player_cards.append(deck.pop())
             if calculate_score(player_cards) > 21:
-                print("あなたはバーストしました！")
+                print(Fore.RED + "あなたはバーストしました！")
                 break
         elif action == 'S':
             print("あなたはスタンドしました。")
@@ -60,19 +65,19 @@ def main():
             dealer_cards.append(deck.pop())
 
     dealer_score = calculate_score(dealer_cards)
-    print(f"ディーラーのカード最終: {dealer_cards} (合計: {dealer_score})")
+    print(Fore.BLUE + f"ディーラーのカード最終: {dealer_cards} (合計: {dealer_score})")
 
     # 勝敗判定
     if player_score > 21:
-        print("あなたの負けです…")
+        print(Fore.RED + "あなたの負けです…")
     else:
         if dealer_score > 21:
-            print("ディーラーがバースト！ あなたの勝ちです！")
+            print(Fore.GREEN + "ディーラーがバースト！ あなたの勝ちです！")
         else:
             if player_score > dealer_score:
-                print("あなたの勝ちです！")
+                print(Fore.GREEN + "あなたの勝ちです！")
             elif player_score < dealer_score:
-                print("あなたの負けです…")
+                print(Fore.RED + "あなたの負けです…")
             else:
                 print("引き分けです。")
 
